@@ -3,14 +3,13 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const WeightEntryForm = () => {
+const WeightEntryForm = ({ userId }) => {
   const [date, setDate] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('morning');
   const [weight, setWeight] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userId = 1; // Oletetaan, että käyttäjän ID on 1
     await axios.post('/api/weights', { userId, date, timeOfDay, weight });
   };
 

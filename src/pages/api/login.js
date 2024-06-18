@@ -9,7 +9,7 @@ export default async (req, res) => {
     const user = await db.get('SELECT * FROM Users WHERE username = ?', [username]);
 
     if (user && await bcrypt.compare(password, user.password)) {
-      res.status(200).json({ message: 'Login successful', user });
+      res.status(200).json({ message: 'Login successful', userId: user.id });
     } else {
       res.status(401).json({ message: 'Invalid username or password' });
     }

@@ -2,6 +2,7 @@ import { openDB } from '../../../../lib/db.mjs';
 
 export default async (req, res) => {
   const { id } = req.query;
+
   const db = await openDB();
 
   if (req.method === 'DELETE') {
@@ -11,6 +12,9 @@ export default async (req, res) => {
     const { weight } = req.body;
     await db.run('UPDATE WeightEntries SET weight = ? WHERE id = ?', [weight, id]);
     res.status(200).json({ message: 'Weight entry updated' });
+  } else if (req.method === 'GET') {
+    const weightEntries = await db.all('SELECT * FROM WeightEntries WHERE userId = ?', [id]);
+    res.status(200).json(weightEntries);
   } else {
     res.status(405).json({ message: 'Method not allowed' });
   }
