@@ -67,7 +67,7 @@ const LoginForm: React.FC = () => {
       </form>
       {message && <p className={styles['error-message']}>{message}</p>}
       <p className={styles['link-message']}>
-        Don't have an account? <Link href="/auth/register">Register here</Link>
+        Don&apos;t have an account? <Link href="/auth/register">Register here</Link>
       </p>
     </div>
   );
