@@ -43,13 +43,21 @@ const WeightList: React.FC<WeightListProps> = ({ userId }) => {
     setNewWeight('');
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Weight Entries</h2>
       <ul className={styles.ul}>
         {weights.map((entry) => (
           <li key={entry.id} className={styles.entry}>
-            <span>{entry.date} - {entry.timeOfDay}</span>
+            <span>{formatDate(entry.date)} - {entry.timeOfDay}</span>
             <span className={styles.weight}>{entry.weight} kg</span>
             {editingId === entry.id ? (
               <div className={styles['edit-buttons']}>
