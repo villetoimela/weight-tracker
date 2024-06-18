@@ -30,7 +30,7 @@
   }
   
   .entry span {
-    display: block; /* Display each part on a new line */
+    display: block;
     text-align: center;
     margin-bottom: var(--space-xs);
   }
@@ -39,12 +39,12 @@
     font-weight: bold;
     font-size: 24px;
     color: var(--white-color);
-    margin-bottom: var(--space-m); /* Space between weight and buttons */
+    margin-bottom: var(--space-m);
   }
   
   .entry-actions {
     display: flex;
-    justify-content: center; /* Center the buttons */
+    justify-content: center;
     gap: var(--space-m);
   }
   
@@ -64,13 +64,13 @@
   
   .edit-buttons {
     display: flex;
-    justify-content: center; /* Center the buttons */
+    justify-content: center; 
     gap: var(--space-m);
   }
   
   .ul {
     padding: 0;
-    list-style: none; /* Remove default list styling */
+    list-style: none;
   }
   
   @media (min-width: 768px) {
@@ -79,26 +79,26 @@
         min-width: 600px;
     }
     .entry {
-      flex-direction: row; /* Arrange elements in a row */
+      flex-direction: row; 
       justify-content: space-between;
       align-items: center;
       padding: var(--space-s);
     }
   
     .entry span {
-      display: inline-block; /* Display elements inline for larger screens */
+      display: inline-block; 
       text-align: left;
       margin-bottom: 0;
-      margin-right: var(--space-m); /* Add space between elements */
+      margin-right: var(--space-m);
     }
   
     .weight {
       margin-bottom: 0;
-      margin-right: var(--space-m); /* Add space between elements */
+      margin-right: var(--space-m); 
     }
   
     .entry-actions {
-      justify-content: flex-end; /* Align buttons to the end */
+      justify-content: flex-end;
     }
   }
   
