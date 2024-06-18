@@ -18,7 +18,7 @@
   }
   
   .entry {
-    margin-bottom: var(--space-m);
+    margin-bottom: var(--space-s);
     padding: var(--space-m);
     background-color: var(--dark-color);
     color: var(--light-color);
@@ -82,6 +82,7 @@
       flex-direction: row; /* Arrange elements in a row */
       justify-content: space-between;
       align-items: center;
+      padding: var(--space-s);
     }
   
     .entry span {
