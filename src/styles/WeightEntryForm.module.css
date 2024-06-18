@@ -36,6 +36,15 @@
     outline: none;
     border-color: #c8e057;
   }
+
+  .form-input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 1;
+  }
+  
+  .form-input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
   
   .submit-button {
     background-color: var(--light-color);
