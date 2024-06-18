@@ -1,7 +1,6 @@
-"use client";
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import styles from '../styles/WeightList.module.css';
 
 interface WeightEntry {
   id: number;
@@ -45,28 +44,29 @@ const WeightList: React.FC<WeightListProps> = ({ userId }) => {
   };
 
   return (
-    <div>
-      <h2>Weight Entries</h2>
-      <ul>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Weight Entries</h2>
+      <ul className={styles.ul}>
         {weights.map((entry) => (
-          <li key={entry.id}>
-            {entry.date} - {entry.timeOfDay}: 
+          <li key={entry.id} className={styles.entry}>
+            <span>{entry.date} - {entry.timeOfDay}</span>
+            <span className={styles.weight}>{entry.weight} kg</span>
             {editingId === entry.id ? (
-              <>
+              <div className={styles['edit-buttons']}>
                 <input 
                   type="number" 
                   value={newWeight} 
                   onChange={(e) => setNewWeight(e.target.value)} 
+                  className={styles['edit-input']} 
                 />
                 <button onClick={() => updateWeight(entry.id)}>Save</button>
                 <button onClick={() => setEditingId(null)}>Cancel</button>
-              </>
+              </div>
             ) : (
-              <>
-                {entry.weight} kg
+              <div className={styles['entry-actions']}>
                 <button onClick={() => startEditing(entry.id, entry.weight)}>Edit</button>
                 <button onClick={() => deleteWeight(entry.id)}>Delete</button>
-              </>
+              </div>
             )}
           </li>
         ))}
