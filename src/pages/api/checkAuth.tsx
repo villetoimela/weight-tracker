@@ -1,8 +1,9 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 
-const SECRET_KEY = process.env.JWT_SECRET;
+const SECRET_KEY = process.env.JWT_SECRET as string;
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -10,7 +11,7 @@ export default async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, SECRET_KEY);
+    const decoded = jwt.verify(token, SECRET_KEY) as { userId: number };
     res.status(200).json({ userId: decoded.userId });
   } catch (err) {
     res.status(401).json({ message: 'Unauthorized' });

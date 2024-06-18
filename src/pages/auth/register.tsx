@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-const LoginForm = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+const RegisterForm: React.FC = () => {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
   const router = useRouter();
 
   useEffect(() => {
@@ -26,12 +26,12 @@ const LoginForm = () => {
     checkLoggedIn();
   }, [router]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/login', { username, password });
-      router.push('/');
-    } catch (error) {
+      const response = await axios.post('/api/register', { username, password });
+      setMessage(response.data.message);
+    } catch (error: any) {
       if (error.response && error.response.data) {
         setMessage(error.response.data.message);
       } else {
@@ -42,7 +42,7 @@ const LoginForm = () => {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
@@ -58,12 +58,12 @@ const LoginForm = () => {
           placeholder="Password" 
           required 
         />
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
-      <p>Don't have an account? <Link href="/auth/register">Register here</Link></p>
+      <p>Already have an account? <Link href="/auth/login">Login here</Link></p>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
