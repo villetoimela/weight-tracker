@@ -32,7 +32,6 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Weight Tracker</h1>
       {userId ? (
         <div>
           <WeightEntryForm userId={userId} />
