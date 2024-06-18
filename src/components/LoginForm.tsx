@@ -1,26 +1,30 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import axios from 'axios';
 
-const RegisterForm = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+interface LoginFormProps {
+  onLogin: (userId: number) => void;
+}
 
-  const handleSubmit = async (e) => {
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/register', { username, password });
-      setMessage(response.data.message);
-    } catch (error) {
+      const response = await axios.post<{ userId: number }>('/api/login', { username, password });
+      onLogin(response.data.userId);
+    } catch (error: any) {
       setMessage(error.response.data.message);
     }
   };
 
   return (
     <div>
-      <h2>Register</h2>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
@@ -36,11 +40,11 @@ const RegisterForm = () => {
           placeholder="Password" 
           required 
         />
-        <button type="submit">Register</button>
+        <button type="submit">Login</button>
       </form>
       {message && <p>{message}</p>}
     </div>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

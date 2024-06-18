@@ -3,10 +3,21 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const WeightList = ({ userId }) => {
-  const [weights, setWeights] = useState([]);
-  const [editingId, setEditingId] = useState(null);
-  const [newWeight, setNewWeight] = useState('');
+interface WeightEntry {
+  id: number;
+  date: string;
+  timeOfDay: string;
+  weight: string;
+}
+
+interface WeightListProps {
+  userId: number;
+}
+
+const WeightList: React.FC<WeightListProps> = ({ userId }) => {
+  const [weights, setWeights] = useState<WeightEntry[]>([]);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [newWeight, setNewWeight] = useState<string>('');
 
   useEffect(() => {
     const fetchWeights = async () => {
@@ -16,17 +27,17 @@ const WeightList = ({ userId }) => {
     fetchWeights();
   }, [userId]);
 
-  const deleteWeight = async (id) => {
+  const deleteWeight = async (id: number) => {
     await axios.delete(`/api/weights/${id}`);
     setWeights(weights.filter((entry) => entry.id !== id));
   };
 
-  const startEditing = (id, currentWeight) => {
+  const startEditing = (id: number, currentWeight: string) => {
     setEditingId(id);
     setNewWeight(currentWeight);
   };
 
-  const updateWeight = async (id) => {
+  const updateWeight = async (id: number) => {
     await axios.put(`/api/weights/${id}`, { weight: newWeight });
     setWeights(weights.map((entry) => entry.id === id ? { ...entry, weight: newWeight } : entry));
     setEditingId(null);

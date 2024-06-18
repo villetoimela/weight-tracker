@@ -2,10 +2,11 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 import { openDB } from '../../../lib/db.mjs';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const SECRET_KEY = process.env.JWT_SECRET;
+const SECRET_KEY = process.env.JWT_SECRET as string;
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { username, password } = req.body;
 

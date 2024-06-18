@@ -1,26 +1,26 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import axios from 'axios';
 
-const LoginForm = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+const RegisterForm = () => {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/login', { username, password });
-      onLogin(response.data.userId);
-    } catch (error) {
+      const response = await axios.post('/api/register', { username, password });
+      setMessage(response.data.message);
+    } catch (error: any) {
       setMessage(error.response.data.message);
     }
   };
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
@@ -36,11 +36,11 @@ const LoginForm = ({ onLogin }) => {
           placeholder="Password" 
           required 
         />
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

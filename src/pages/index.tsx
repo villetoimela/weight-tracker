@@ -5,10 +5,10 @@ import WeightEntryForm from '../components/WeightEntryForm';
 import WeightList from '../components/WeightList';
 import LogoutButton from '../components/LogoutButton';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export default function Home() {
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState<number | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -34,11 +34,11 @@ export default function Home() {
     <div>
       <h1>Weight Tracker</h1>
       {userId ? (
-        <>
+        <div>
           <WeightEntryForm userId={userId} />
           <WeightList userId={userId} />
           <LogoutButton onLogout={handleLogout} />
-        </>
+        </div>
       ) : (
         <p>Redirecting to login...</p>
       )}

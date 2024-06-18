@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import axios from 'axios';
 
-const WeightEntryForm = ({ userId }) => {
-  const [date, setDate] = useState('');
-  const [timeOfDay, setTimeOfDay] = useState('morning');
-  const [weight, setWeight] = useState('');
+interface WeightEntryFormProps {
+  userId: number;
+}
 
-  const handleSubmit = async (e) => {
+const WeightEntryForm: React.FC<WeightEntryFormProps> = ({ userId }) => {
+  const [date, setDate] = useState<string>('');
+  const [timeOfDay, setTimeOfDay] = useState<string>('morning');
+  const [weight, setWeight] = useState<string>('');
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     await axios.post('/api/weights', { userId, date, timeOfDay, weight });
   };

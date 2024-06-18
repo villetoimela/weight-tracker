@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { openDB } from '../../../lib/db.mjs';
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { username, password } = req.body;
 
