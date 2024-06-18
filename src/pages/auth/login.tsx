@@ -1,9 +1,10 @@
-"use client";
+// login.tsx
 
 import { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import styles from '../../styles/Login.module.css';
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState<string>('');
@@ -41,27 +42,33 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          value={username} 
-          onChange={(e) => setUsername(e.target.value)} 
-          placeholder="Username" 
-          required 
+    <div className={styles.container}>
+      <h2 className={styles.title}>Login</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className={styles['form-input']}
+          placeholder="Username"
+          required
         />
-        <input 
-          type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-          placeholder="Password" 
-          required 
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={styles['form-input']}
+          placeholder="Password"
+          required
         />
-        <button type="submit">Login</button>
+        <button type="submit" className={styles['submit-button']}>
+          Login
+        </button>
       </form>
-      {message && <p>{message}</p>}
-      <p>Don't have an account? <Link href="/auth/register">Register here</Link></p>
+      {message && <p className={styles['error-message']}>{message}</p>}
+      <p className={styles['link-message']}>
+        Don't have an account? <Link href="/auth/register">Register here</Link>
+      </p>
     </div>
   );
 };

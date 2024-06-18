@@ -1,9 +1,10 @@
-"use client";
+// register.tsx
 
 import { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import styles from '../../styles/Login.module.css';
 
 const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState<string>('');
@@ -41,13 +42,14 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Register</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <input 
           type="text" 
           value={username} 
           onChange={(e) => setUsername(e.target.value)} 
+          className={styles['form-input']}
           placeholder="Username" 
           required 
         />
@@ -55,13 +57,16 @@ const RegisterForm: React.FC = () => {
           type="password" 
           value={password} 
           onChange={(e) => setPassword(e.target.value)} 
+          className={styles['form-input']}
           placeholder="Password" 
           required 
         />
-        <button type="submit">Register</button>
+        <button type="submit" className={styles['submit-button']}>Register</button>
       </form>
       {message && <p>{message}</p>}
-      <p>Already have an account? <Link href="/auth/login">Login here</Link></p>
+      <p className={styles['link-message']}>
+        Already have an account? <Link href="/auth/login">Login here</Link>
+      </p>
     </div>
   );
 };
