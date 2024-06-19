@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ed98fe23-e537-4bd1-8973-519aa0688a4a/deploy-status)](https://app.netlify.com/sites/villetoimela-weight-tracker/deploys)
+
 ## Getting Started
 
 First, run the development server:
