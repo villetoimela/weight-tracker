@@ -52,8 +52,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       res.status(200).json({ message: 'Weight entry updated' });
+    } else if (req.method === 'GET') {
+      const { userId } = req.query;
+      const { data: weights, error: fetchError } = await supabase
+        .from('weightentries')
+        .select('*')
+        .eq('userid', userId);
+
+      if (fetchError) {
+        return res.status(500).json({ message: 'Error fetching weight entries', details: fetchError });
+      }
+
+      res.status(200).json(weights);
     } else {
-      res.setHeader('Allow', ['POST', 'DELETE', 'PUT']);
+      res.setHeader('Allow', ['POST', 'DELETE', 'PUT', 'GET']);
       res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (err) {
