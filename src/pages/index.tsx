@@ -31,7 +31,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="main-div">
       {userId ? (
         <div>
           <WeightEntryForm userId={userId} />
