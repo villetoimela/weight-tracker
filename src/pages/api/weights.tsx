@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { openDB } from '../../../lib/db.mjs';
+import { supabase } from '../../../lib/db.mjs';
+import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = process.env.JWT_SECRET as string;
 
@@ -16,11 +16,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const decoded = jwt.verify(token, SECRET_KEY) as { userId: number };
       const { date, timeOfDay, weight } = req.body;
 
-      const db = await openDB();
-      await db.run(
-        'INSERT INTO WeightEntries (userId, date, timeOfDay, weight) VALUES (?, ?, ?, ?)',
-        [decoded.userId, date, timeOfDay, weight]
-      );
+      const { error: insertError } = await supabase
+        .from('weightentries')
+        .insert({ userId: decoded.userId, date, timeOfDay, weight });
+
+      if (insertError) {
+        return res.status(500).json({ message: 'Error inserting weight entry' });
+      }
 
       res.status(201).json({ message: 'Weight entry added' });
     } catch (err) {

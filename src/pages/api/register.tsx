@@ -1,21 +1,35 @@
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { openDB } from '../../../lib/db.mjs';
+import { supabase } from '../../../lib/db.mjs';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { username, password } = req.body;
 
-    const db = await openDB();
-    const existingUser = await db.get('SELECT * FROM Users WHERE username = ?', [username]);
+    const { data: existingUser, error: selectError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username)
+      .single();
+
+    if (selectError && selectError.code !== 'PGRST116') {
+      return res.status(500).json({ message: 'Database error' });
+    }
 
     if (existingUser) {
-      res.status(400).json({ message: 'User already exists' });
-    } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await db.run('INSERT INTO Users (username, password) VALUES (?, ?)', [username, hashedPassword]);
-      res.status(201).json({ message: 'User registered' });
+      return res.status(400).json({ message: 'User already exists' });
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const { error: insertError } = await supabase
+      .from('users')
+      .insert([{ username, password: hashedPassword }]);
+
+    if (insertError) {
+      return res.status(500).json({ message: 'User registration failed' });
+    }
+
+    res.status(201).json({ message: 'User registered' });
   } else {
     res.status(405).json({ message: 'Method not allowed' });
   }
