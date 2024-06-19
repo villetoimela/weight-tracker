@@ -9,24 +9,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const token = req.cookies.token;
 
     if (!token) {
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).json({ message: 'Unauthorized: No token provided' });
     }
 
     try {
       const decoded = jwt.verify(token, SECRET_KEY) as { userId: number };
       const { date, timeOfDay, weight } = req.body;
 
+      console.log('Decoded JWT:', decoded);
+      console.log('Request body:', req.body);
+
       const { error: insertError } = await supabase
         .from('weightentries')
-        .insert({ userId: decoded.userId, date, timeOfDay, weight });
+        .insert({ userid: decoded.userId, date, timeofday: timeOfDay, weight });
 
       if (insertError) {
-        return res.status(500).json({ message: 'Error inserting weight entry' });
+        console.error('Error inserting weight entry:', insertError);
+        return res.status(500).json({ message: 'Error inserting weight entry', details: insertError });
       }
 
       res.status(201).json({ message: 'Weight entry added' });
     } catch (err) {
-      res.status(401).json({ message: 'Unauthorized' });
+      console.error('JWT verification error:', err);
+      res.status(401).json({ message: 'Unauthorized: Invalid token', error: err });
     }
   } else {
     res.setHeader('Allow', ['POST']);
