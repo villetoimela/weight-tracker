@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { openDB } from '../../../../lib/db.mjs';
+import jwt from 'jsonwebtoken';
+import { supabase } from '../../../../lib/db.mjs';
 
 const SECRET_KEY = process.env.JWT_SECRET as string;
 
@@ -14,8 +14,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY) as { userId: number };
-    const db = await openDB();
-    const weightEntries = await db.all('SELECT * FROM WeightEntries WHERE userId = ?', [decoded.userId]);
+    const { data: weightEntries, error } = await supabase
+      .from('weightentries')
+      .select('*')
+      .eq('userid', decoded.userId);
+
+    if (error) {
+      throw error;
+    }
 
     res.status(200).json(weightEntries);
   } catch (err) {

@@ -1,5 +1,3 @@
-// WeightEntryForm.tsx
-
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
 import styles from '../styles/WeightEntryForm.module.css';
@@ -15,7 +13,15 @@ const WeightEntryForm: React.FC<WeightEntryFormProps> = ({ userId }) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    await axios.post('/api/weights', { userId, date, timeOfDay, weight });
+    try {
+      await axios.post(
+        '/api/weights',
+        { userId, date, timeOfDay, weight },
+        { withCredentials: true } // Ensure cookies are included
+      );
+    } catch (error) {
+      console.error('Error adding weight entry', error);
+    }
   };
 
   return (
@@ -40,7 +46,7 @@ const WeightEntryForm: React.FC<WeightEntryFormProps> = ({ userId }) => {
         <input
           type="number"
           value={weight}
-          placeholder='Weight in kg'
+          placeholder="Weight in kg"
           onChange={(e) => setWeight(e.target.value)}
           className={styles['form-input']}
           required
