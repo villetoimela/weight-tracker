@@ -27,8 +27,12 @@ const WeightList: React.FC<WeightListProps> = ({ userId }) => {
   }, [userId]);
 
   const deleteWeight = async (id: number) => {
-    await axios.delete(`/api/weights/${id}`);
-    setWeights(weights.filter((entry) => entry.id !== id));
+    try {
+      await axios.delete('/api/weights', { data: { id } });
+      setWeights(weights.filter((entry) => entry.id !== id));
+    } catch (error) {
+      console.error('Error deleting weight entry', error);
+    }
   };
 
   const startEditing = (id: number, currentWeight: string) => {
@@ -37,10 +41,14 @@ const WeightList: React.FC<WeightListProps> = ({ userId }) => {
   };
 
   const updateWeight = async (id: number) => {
-    await axios.put(`/api/weights/${id}`, { weight: newWeight });
-    setWeights(weights.map((entry) => entry.id === id ? { ...entry, weight: newWeight } : entry));
-    setEditingId(null);
-    setNewWeight('');
+    try {
+      await axios.put('/api/weights', { id, weight: newWeight });
+      setWeights(weights.map((entry) => entry.id === id ? { ...entry, weight: newWeight } : entry));
+      setEditingId(null);
+      setNewWeight('');
+    } catch (error) {
+      console.error('Error updating weight entry', error);
+    }
   };
 
   const formatDate = (dateString: string) => {
