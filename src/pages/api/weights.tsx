@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = process.env.JWT_SECRET as string;
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const weights = async (req: NextApiRequest, res: NextApiResponse) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -72,3 +72,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(401).json({ message: 'Unauthorized: Invalid token', error: err });
   }
 };
+
+export default weights;

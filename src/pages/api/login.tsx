@@ -6,7 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 const SECRET_KEY = process.env.JWT_SECRET as string;
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const login = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { username, password } = req.body;
 
@@ -32,3 +32,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).json({ message: 'Method not allowed' });
   }
 };
+
+export default login;
