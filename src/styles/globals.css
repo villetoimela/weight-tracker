@@ -14,7 +14,7 @@
 
 body {
   background: rgb(224,255,99);
-background: radial-gradient(circle, rgba(224,255,99,1) -50%, rgba(39,39,39,1) 100%);
+  background: radial-gradient(circle, rgba(224,255,99,1) -50%, rgba(39,39,39,1) 100%);
   background-attachment: fixed;
   font-family: 'Arial', sans-serif;
   margin: 0;
@@ -25,6 +25,11 @@ background: radial-gradient(circle, rgba(224,255,99,1) -50%, rgba(39,39,39,1) 10
   align-items: center;
   padding-top: var(--space-l);
   padding-bottom: var(--space-l);
+}
+
+.main-div {
+  position: relative;
+  z-index: 1;
 }
 
 h1, h2, h3, h4, h5, h6, p {
