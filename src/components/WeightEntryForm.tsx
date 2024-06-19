@@ -32,7 +32,7 @@ const WeightEntryForm: React.FC<WeightEntryFormProps> = ({ userId }) => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Add Weight Entry</h2>
+      <h2 className={styles.title}>Add Weight</h2>
       <form className={styles.form} onSubmit={handleSubmit}>
         <input
           type="date"
