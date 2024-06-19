@@ -1,6 +1,8 @@
+// src/pages/_app.tsx
 import '../styles/globals.css';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
+import ParticlesComponent from '../components/ParticlesComponent';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -12,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" />
       </Head>
+      <ParticlesComponent />
       <Component {...pageProps} />
     </>
   );

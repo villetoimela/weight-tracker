@@ -13,8 +13,8 @@
 }
 
 body {
-  background: var(--gray-color);
-  background: linear-gradient(160deg, var(--gray-color), var(--light-color) 100%);
+  background: rgb(224,255,99);
+background: radial-gradient(circle, rgba(224,255,99,1) -50%, rgba(39,39,39,1) 100%);
   background-attachment: fixed;
   font-family: 'Arial', sans-serif;
   margin: 0;
