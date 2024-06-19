@@ -22,7 +22,6 @@ const WeightList: React.FC<WeightListProps> = ({ userId }) => {
     const fetchWeights = async () => {
       try {
         const response = await axios.get(`/api/weights/${userId}`);
-        console.log('Fetched weights:', response.data); // Debugging log
         setWeights(response.data);
       } catch (error) {
         console.error('Error fetching weights', error);
