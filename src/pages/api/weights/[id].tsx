@@ -4,7 +4,7 @@ import { supabase } from '../../../../lib/db.mjs';
 
 const SECRET_KEY = process.env.JWT_SECRET as string;
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const weightById = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const token = req.cookies.token;
 
@@ -28,3 +28,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(401).json({ message: 'Unauthorized' });
   }
 };
+
+export default weightById;

@@ -1,7 +1,7 @@
 import { serialize } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const logout = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     res.setHeader('Set-Cookie', serialize('token', '', {
       httpOnly: true,
@@ -14,3 +14,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).json({ message: 'Method not allowed' });
   }
 };
+
+export default logout;
