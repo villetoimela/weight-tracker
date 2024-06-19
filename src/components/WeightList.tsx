@@ -5,7 +5,7 @@ import styles from '../styles/WeightList.module.css';
 interface WeightEntry {
   id: number;
   date: string;
-  timeOfDay: string;
+  timeofday: string; // Muutetaan avaimen nimi timeOfDay -> timeofday
   weight: string;
 }
 
@@ -20,8 +20,13 @@ const WeightList: React.FC<WeightListProps> = ({ userId }) => {
 
   useEffect(() => {
     const fetchWeights = async () => {
-      const response = await axios.get(`/api/weights/${userId}`);
-      setWeights(response.data);
+      try {
+        const response = await axios.get(`/api/weights/${userId}`);
+        console.log('Fetched weights:', response.data); // Debugging log
+        setWeights(response.data);
+      } catch (error) {
+        console.error('Error fetching weights', error);
+      }
     };
     fetchWeights();
   }, [userId]);
@@ -65,7 +70,7 @@ const WeightList: React.FC<WeightListProps> = ({ userId }) => {
       <ul className={styles.ul}>
         {weights.map((entry) => (
           <li key={entry.id} className={styles.entry}>
-            <span>{formatDate(entry.date)} - {entry.timeOfDay}</span>
+            <span>{formatDate(entry.date)} - {entry.timeofday || 'N/A'}</span> {/* Muutetaan avaimen nimi */}
             <span className={styles.weight}>{entry.weight} kg</span>
             {editingId === entry.id ? (
               <div className={styles['edit-buttons']}>
