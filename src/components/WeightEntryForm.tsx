@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 import styles from '../styles/WeightEntryForm.module.css';
 
@@ -11,13 +11,19 @@ const WeightEntryForm: React.FC<WeightEntryFormProps> = ({ userId }) => {
   const [timeOfDay, setTimeOfDay] = useState<string>('morning');
   const [weight, setWeight] = useState<string>('');
 
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    setDate(formattedDate);
+  }, []);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       await axios.post(
         '/api/weights',
         { userId, date, timeOfDay, weight },
-        { withCredentials: true } // Ensure cookies are included
+        { withCredentials: true }
       );
     } catch (error) {
       console.error('Error adding weight entry', error);
