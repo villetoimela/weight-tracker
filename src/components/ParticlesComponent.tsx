@@ -14,6 +14,7 @@ const ParticlesComponent: React.FC = () => {
     <Particles
       id="tsparticles"
       init={particlesInit}
+      // @ts-ignore
       options={particlesConfig}
       style={{
         position: "fixed",
