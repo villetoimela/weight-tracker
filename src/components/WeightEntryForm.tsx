@@ -4,12 +4,14 @@ import styles from '../styles/WeightEntryForm.module.css';
 
 interface WeightEntryFormProps {
   userId: number;
+  onWeightAdded: (weightEntry: { date: string; timeOfDay: string; weight: string }) => void;
 }
 
-const WeightEntryForm: React.FC<WeightEntryFormProps> = ({ userId }) => {
+const WeightEntryForm: React.FC<WeightEntryFormProps> = ({ userId, onWeightAdded }) => {
   const [date, setDate] = useState<string>('');
   const [timeOfDay, setTimeOfDay] = useState<string>('morning');
   const [weight, setWeight] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   useEffect(() => {
     const today = new Date();
@@ -25,6 +27,12 @@ const WeightEntryForm: React.FC<WeightEntryFormProps> = ({ userId }) => {
         { userId, date, timeOfDay, weight },
         { withCredentials: true }
       );
+      setSuccessMessage('Weight entry added successfully!');
+      onWeightAdded({ date, timeOfDay, weight });
+      setWeight('');
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000); // Clear message after 3 seconds
     } catch (error) {
       console.error('Error adding weight entry', error);
     }
@@ -61,6 +69,7 @@ const WeightEntryForm: React.FC<WeightEntryFormProps> = ({ userId }) => {
           Add Weight
         </button>
       </form>
+      {successMessage && <p className={styles['success-message']}>{successMessage}</p>}
     </div>
   );
 };
