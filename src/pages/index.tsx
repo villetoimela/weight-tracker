@@ -7,6 +7,13 @@ import LogoutButton from '../components/LogoutButton';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+interface WeightEntry {
+  id: number;
+  date: string;
+  timeofday: string;
+  weight: string;
+}
+
 export default function Home() {
   const [userId, setUserId] = useState<number | null>(null);
   const [weights, setWeights] = useState<WeightEntry[]>([]);
@@ -31,7 +38,7 @@ export default function Home() {
       const fetchWeights = async () => {
         try {
           const response = await axios.get(`/api/weights/${userId}`);
-          setWeights(response.data);
+          setWeights(response.data.sort((a: WeightEntry, b: WeightEntry) => new Date(b.date).getTime() - new Date(a.date).getTime()));
         } catch (error) {
           console.error('Error fetching weights', error);
         }
@@ -52,7 +59,7 @@ export default function Home() {
       timeofday: newWeightEntry.timeOfDay,
       weight: newWeightEntry.weight
     };
-    setWeights([newEntry, ...weights]);
+    setWeights([newEntry, ...weights].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())); // Add new entry to the start of the list and sort by date
   };
 
   return (
