@@ -15,7 +15,7 @@ interface WeightListProps {
   setWeights: React.Dispatch<React.SetStateAction<WeightEntry[]>>;
 }
 
-const WeightList: React.FC<WeightListProps> = ({ userId, weights, setWeights }) => {
+const WeightList: React.FC<WeightListProps> = ({ userId, weights = [], setWeights }) => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [newWeight, setNewWeight] = useState<string>('');
 
