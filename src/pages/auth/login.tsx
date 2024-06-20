@@ -12,27 +12,25 @@ const LoginForm: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const router = useRouter();
 
-  useEffect(() => {
-    const checkLoggedIn = async () => {
-      try {
-        const response = await axios.get('/api/checkAuth');
-        if (response.data.userId) {
-          router.push('/');
-        }
-      } catch (error) {
-        // not logged in
+  const checkLoggedIn = async () => {
+    try {
+      const response = await axios.get('/api/checkAuth');
+      if (response.data.userId) {
+        router.push('/');
       }
-    };
-
-    checkLoggedIn();
-  }, [router]);
-
+    } catch (error) {
+      console.error('Error checking login status:', error);
+      // not logged in
+    }
+  };
+  
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post('/api/login', { username, password });
       router.push('/');
     } catch (error: any) {
+      console.error('Error during login:', error);
       if (error.response && error.response.data) {
         setMessage(error.response.data.message);
       } else {
