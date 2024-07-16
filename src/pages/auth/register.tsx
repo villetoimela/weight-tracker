@@ -1,6 +1,4 @@
-// register.tsx
-
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -10,34 +8,28 @@ const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [message, setMessage] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const checkLoggedIn = async () => {
-      try {
-        const response = await axios.get('/api/checkAuth');
-        if (response.data.userId) {
-          router.push('/');
-        }
-      } catch (error) {
-        // not logged in
-      }
-    };
-
-    checkLoggedIn();
-  }, [router]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/register', { username, password });
-      setMessage(response.data.message);
+      const response = await axios.post('/api/register', { username, password }, {
+        withCredentials: true,
+      });
+      setMessage('Registered successfully! Redirecting to login...');
+      setSuccess(true);
+      setTimeout(() => {
+        router.push('/auth/login');
+      }, 5000); // 5 seconds delay before redirecting
     } catch (error: any) {
+      console.error('Error during registration:', error);
       if (error.response && error.response.data) {
         setMessage(error.response.data.message);
       } else {
         setMessage('An error occurred. Please try again.');
       }
+      setSuccess(false);
     }
   };
 
@@ -63,7 +55,7 @@ const RegisterForm: React.FC = () => {
         />
         <button type="submit" className={styles['submit-button']}>Register</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className={success ? styles['success-message'] : styles['error-message']}>{message}</p>}
       <p className={styles['link-message']}>
         Already have an account? <Link href="/auth/login">Login here</Link>
       </p>
